@@ -46,7 +46,7 @@ when 'debian', 'ubuntu'
   end
 
   remote_file "#{Chef::Config[:file_cache_path]}/mesos.deb" do
-    source "http://downloads.mesosphere.io/master/#{distro}/#{distro_version}/mesos_#{node['mesos']['version']}_amd64.deb"
+    source node['mesos']['package_url'] || "http://downloads.mesosphere.io/master/#{distro}/#{distro_version}/mesos_#{node['mesos']['version']}_amd64.deb"
     action :create
     not_if { ::File.exist? '/usr/local/sbin/mesos-master' }
   end
@@ -83,7 +83,7 @@ when 'rhel', 'centos', 'amazon', 'scientific'
   end
 
   remote_file "#{Chef::Config[:file_cache_path]}/mesos-#{node['mesos']['version']}.rpm" do
-    source "http://downloads.mesosphere.io/master/centos/6/mesos_#{node['mesos']['version']}_x86_64.rpm"
+    source node['mesos']['package_url'] || "http://downloads.mesosphere.io/master/centos/6/mesos_#{node['mesos']['version']}_x86_64.rpm"
     action :create
     not_if { ::File.exist? '/usr/local/sbin/mesos-master' }
   end
